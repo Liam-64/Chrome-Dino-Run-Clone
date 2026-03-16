@@ -13,9 +13,7 @@ public class  Main extends JFrame implements KeyListener
     static public String dinoAnim= "img/dino/dinoLeft.png";
     static public int dinoWidth= 100;
     static public int dinoHeight= 100;
-    public boolean isDucking= false;
     int yourScore=0;
-    int constant=1;
     int speed=5;
     static Object obj= new Object();
     static String file= obj.returnFileName();
@@ -63,17 +61,12 @@ public class  Main extends JFrame implements KeyListener
 
     public void update ()
     {
-        if(obj.returnXCord()<5)
+        if (obj.returnXCord()<0)
         {
             obj.setObject();
             yourScore++;
-        }
-        if(yourScore==5*constant)
-            constant++;
-        if (obj.returnXCord()<0)
-        {
             obj.resetXCord();
-            if(yourScore>=5*constant)
+            if(yourScore%5==0)
                 speed+=3;
         }
         obj.updateSpeed(speed);
@@ -153,8 +146,10 @@ public class  Main extends JFrame implements KeyListener
                 break;
 
             case KeyEvent.VK_DOWN:
-                dinoAnim="img/dino/dinoDuckLeft.png";
-                isDucking= true;
+                if (dinoAnim.equals("img/dino/dinoDuckLeft.png") || dinoAnim.equals("img/dino/dinoRight.png") ||dinoAnim.equals("img/dino/dinoLeft.png") )
+                    dinoAnim="img/dino/dinoDuckRight.png";
+                else if(dinoAnim.equals("img/dino/dinoDuckRight.png"))
+                    dinoAnim="img/dino/dinoDuckLeft.png";
                 dinoWidth=118;
                 dinoHeight=85;
                 dinoY =380;
@@ -165,11 +160,10 @@ public class  Main extends JFrame implements KeyListener
     {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_SPACE, KeyEvent.VK_DOWN:
+                dinoAnim="img/dino/dinoLeft.png";
                 dinoY =360;
                 dinoWidth=100;
                 dinoHeight=100;
-                dinoAnim="img/dino/dinoLeft.png";
-                isDucking= false;
                 break;
         }
     }
